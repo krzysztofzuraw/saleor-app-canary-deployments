@@ -1,8 +1,8 @@
-import { gql } from "urql";
 import { SaleorAsyncWebhook } from "@saleor/app-sdk/handlers/next";
+import { gql } from "urql";
 import { OrderCreatedWebhookPayloadFragment } from "../../../../generated/graphql";
-import { saleorApp } from "../../../saleor-app";
 import { createClient } from "../../../lib/create-graphq-client";
+import { saleorApp } from "../../../saleor-app";
 
 /**
  * Example payload of the webhook. It will be transformed with graphql-codegen to Typescript type: OrderCreatedWebhookPayloadFragment
@@ -72,6 +72,8 @@ export default orderCreatedWebhook.createHandler((req, res, ctx) => {
     authData,
   } = ctx;
 
+  console.log("Received request with query", req.query);
+
   /**
    * Perform logic based on Saleor Event payload
    */
@@ -81,12 +83,12 @@ export default orderCreatedWebhook.createHandler((req, res, ctx) => {
    * Create GraphQL client to interact with Saleor API.
    */
   const client = createClient(authData.saleorApiUrl, async () => ({ token: authData.token }));
-  
+
   /**
    * Now you can fetch additional data using urql.
    * https://formidable.com/open-source/urql/docs/api/core/#clientquery
    */
-  
+
   // const data = await client.query().toPromise()
 
   /**
